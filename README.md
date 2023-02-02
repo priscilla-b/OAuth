@@ -22,7 +22,7 @@
     - does not give guidance on token string size
 
 
-### Creating and OAuth 2 Application
+### Creating an OAuth 2 Application
 - Create a developer account on the service's website and enter basic info about the app(name, website, logo, etc.)
 - You'll be given a `client_id` and `client_secret` (sometimes) that your app will use to interact with the service.
 - Critical to register one or more redirect urls (where the OAuth 2 service will return the user after they have authorized the application) to avoid creating malicious apps that can steal user data.
@@ -31,7 +31,19 @@
 - The parameter is a string that will be returned after user is authorized to bring them to the right location in the app. State string should be encrypted with a method like JWT.
 
 
+## Concepts I've Learnt
+### **cURL**
+- stands for **client URL** is a command line tool that developers use to transfer data to and from a server. Let's you communicate with a server by specifying url(location) and data you want to send. 
+- Supports different protocols(http, https) and runs on almost every platform, making it ideal for testing communication on almost any device
+- Benefits: 
+    - highly portable and comparable with almost OS and device
+    - useful for testing endpoints
+    - can be verbose, hence helpful for debugging
+    - good error logging
+
+
 ## Resources
 - [OAuth Documentation](https://oauth.net/)
 - [What is OAuth and why does it matter?](https://www.youtube.com/watch?v=KT8ybowdyr0) - OktaDev on Youtube
 - [OAuth 2 Servers](https://www.oauth.com/oauth2-servers/)
+- [IBM: What is cURL?](https://developer.ibm.com/articles/what-is-curl-command/)
