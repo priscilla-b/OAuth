@@ -43,3 +43,21 @@ base_url = 'https://' + os.environ.get('HOST_NAME', 'localhost') + '/'
 
 # start a session so we have a place to store things between redirects
 session = requests.Session()
+
+
+access_token = os.environ.get('ACCESS_TOKEN')
+
+if 'action' not in os.environ:
+    # the action environment variable is used as a query parameter is the given url
+    # to determine the desired action of the user. e.g. login,repos, logout
+    # here action, is used to determine is user is logged in or not.
+    # if action is not present, code checks if user is already logged 
+    # in by checking the access token
+    if access_token:
+        print('Logged In')
+        print('<p><a href="?action=repos">View Repos</a></p>')
+        print('<p><a href="?action=logout">Log Out</a></p>')
+    else:
+        print('Not logged in')
+        print('<p><a href="?action=login">Log In</a></p>')
+    exit()
