@@ -1,7 +1,12 @@
 import os
-import requests
 import json
+import requests
+import secrets
+import urllib.parse
+import webbrowser
+
 from dotenv import load_dotenv
+
 
 
 load_dotenv()
@@ -27,7 +32,6 @@ url = "http://localhost:5000/"
 
 github_client_id = os.environ.get('GITHUB_CLIENT_ID')
 github_client_secret = os.environ.get('GITHUB_CLIENT_SECRET')
-print(github_client_secret)
 
 #  url to get a user's authorization
 authorize_url = 'https://github.com/login/oauth/authorize'
@@ -60,4 +64,27 @@ if 'action' not in os.environ:
     else:
         print('Not logged in')
         print('<p><a href="?action=login">Log In</a></p>')
+    exit()
+
+
+# Start the login process by sending the user
+# to GitHub's authorization page
+if 'action' in os.environ and os.environ['action'] == 'login':
+    os.environ['ACCESS_TOKEN'] = ''
+
+    # Generate a random hash and store in the environment
+    state = secrets.token_hex(16)
+    os.environ['STATE'] = state
+
+    params = {
+        'response_type': 'code',
+        'client_id': github_client_id,
+        'redirect_uri': base_url,
+        'scope': 'user public_repo',
+        'state': state
+    }
+
+    # Redirect the user to GitHub's authorization page
+    authorize_url = f"{authorize_url}?{urllib.parse.urlencode(params)}"
+    webbrowser.open(authorize_url)
     exit()
