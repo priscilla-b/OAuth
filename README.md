@@ -11,8 +11,27 @@
 - Another benefit of centralization is that it makes it easy to upgrade authentication for all users/services
 
 
+## OAuth 2
+- There were some use cases such as in mobile applications, where the initial implementation of OAuth could not be used securely.
+-  The goal of OAuth 2 was to build on OAuth 1 for mobile applications and simplify aspects that were confusing to API consumers.
+- Issue with OAuth 2 was that there were conflicts between the web and enterprise contributors of the protocol. A lot of the areas of contention were put in different documents, leaving a lot of gaps in the protocol(now being called a framework in the core document as a result).
+- Result is that web implementation for OAuth 2 can be complex and confusing as you'll need to synthetize information from different drafts
+- Implementation Issues:
+    - standard does not require a token type
+    - does not require specific grant types
+    - does not give guidance on token string size
+
+
+### Creating and OAuth 2 Application
+- Create a developer account on the service's website and enter basic info about the app(name, website, logo, etc.)
+- You'll be given a `client_id` and `client_secret` (sometimes) that your app will use to interact with the service.
+- Critical to register one or more redirect urls (where the OAuth 2 service will return the user after they have authorized the application) to avoid creating malicious apps that can steal user data.
+- Redirect URL must be an https endpoint to provide an attacker from intercepting authorization code and hijack a session
+- Instead of registering multiple redirect urls for different application states, OAuth 2 provides a "**state**" parameter that can be used to encode an app state. 
+- The parameter is a string that will be returned after user is authorized to bring them to the right location in the app. State string should be encrypted with a method like JWT.
 
 
 ## Resources
 - [OAuth Documentation](https://oauth.net/)
 - [What is OAuth and why does it matter?](https://www.youtube.com/watch?v=KT8ybowdyr0) - OktaDev on Youtube
+- [OAuth 2 Servers](https://www.oauth.com/oauth2-servers/)
