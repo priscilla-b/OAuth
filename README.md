@@ -29,9 +29,10 @@
 - Redirect URL must be an https endpoint to provide an attacker from intercepting authorization code and hijack a session
 - Instead of registering multiple redirect urls for different application states, OAuth 2 provides a "**state**" parameter that can be used to encode an app state. 
 - The parameter is a string that will be returned after user is authorized to bring them to the right location in the app. State string should be encrypted with a method like JWT.
+- State generated initially is stored in session, after user authorizes and is redirected to the client application, the OAuth server compares the state string with what was initially stored in session before exchanging the authorization code for an access token
 
 
-## Concepts I've Learnt
+## Other Concepts I've Learnt
 ### **cURL**
 - stands for **client URL** is a command line tool that developers use to transfer data to and from a server. Let's you communicate with a server by specifying url(location) and data you want to send. 
 - Supports different protocols(http, https) and runs on almost every platform, making it ideal for testing communication on almost any device
