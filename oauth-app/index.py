@@ -14,7 +14,7 @@ load_dotenv()
 def api_request(url, post=False, headers={}):
     default_headers = {
         'Accept': 'application/vnd.github.v3+json, application/json',
-        'User-Agent': 'https://example-app.com/'
+        'User-Agent': 'http://localhost:8000/'
     }
 
     if 'access_token' in headers:
@@ -43,7 +43,7 @@ token_url = 'https://github.com/login/oauth/access_token'
 api_url_base = 'https://api.github.com/'
 
 # url for this script, used as the redirect url
-base_url = 'https://' + os.environ.get('HOST_NAME', 'localhost') + '/'
+base_url = 'http://' + os.environ.get('HOST_NAME', 'localhost') + '/'
 
 # start a session so we have a place to store things between redirects
 session = requests.Session()
@@ -75,7 +75,8 @@ if 'action' in os.environ and os.environ['action'] == 'login':
     # Generate a random hash and store in the environment
     state = secrets.token_hex(16)
     os.environ['STATE'] = state
-
+    
+    # parameters to send to the GitHub authorization page
     params = {
         'response_type': 'code',
         'client_id': github_client_id,
@@ -86,5 +87,7 @@ if 'action' in os.environ and os.environ['action'] == 'login':
 
     # Redirect the user to GitHub's authorization page
     authorize_url = f"{authorize_url}?{urllib.parse.urlencode(params)}"
+    # urllib.parse.urlencode encodes the params as a query string
+
     webbrowser.open(authorize_url)
     exit()
