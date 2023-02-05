@@ -42,6 +42,20 @@
     - can be verbose, hence helpful for debugging
     - good error logging
 
+### **Running a python script on the web without a framework like flask or django**
+- You would first need to setup the python script as a CGI script
+- CGI stands for Common Gateway Interface. It allows applications to communicate with other applications on the internet
+- First create a cig-bin folder and move your python script there
+- Then use python's in-built `http.server` to run a simple HTTP server
+- Run `python -m http.server --cgi` from the directory that contains cgi-bin to start the http server in cgi mode.
+- Navigate to `http://localhost:8000/cgi-bin/your-script.py ` to run the CGI script.
+- In `your-script.py` need to include `print("Content-type:text/html\r\n\r\n")` to set the content type of the response to "text/html" to enable the script to run in the browser like an html file
+
+### **Shebang(Hashbang)**
+- A special code in the form of a `#!` at the very beginning of executable files in Unix-like operating systems.
+- Specifies the path to the interpreter executable that should be used to run the script.
+- E.g. a shebang like `#!/usr/bin/env python` at the start of a python script tells the system to use the python interpreter located at `usr/bin/env python` to run the script.
+
 
 ## Resources
 - [OAuth Documentation](https://oauth.net/)
