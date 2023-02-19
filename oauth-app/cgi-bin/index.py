@@ -13,6 +13,30 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+def isSSL(  ):
+    """ Return true if we are on an SSL (https) connection. """
+    return os.environ.get('SSL_PROTOCOL', '') != ''
+
+
+def getQualifiedURL(uri = None):
+    """ Return a full URL starting with schema, servername, and port.
+        Specifying uri causes it to be appended to the server root URL (uri must
+        start with a slash).
+    """
+    schema, stdport = (('http', '80'), ('https', '443'))[isSSL(  )]
+    host = os.environ.get('HTTP_HOST', '')
+    if not host:
+        host = os.environ.get('SERVER_NAME', 'localhost')
+        port = os.environ.get('SERVER_PORT', '80')
+        if port != stdport: host = host + ":" + port
+
+    result = "%s://%s" % (schema, host)
+    if uri: result = result + uri
+
+    return result
+
+    
+
 def api_request(url, post=False, headers={}):
     default_headers = {
         'Accept': 'application/vnd.github.v3+json, application/json',
@@ -71,12 +95,19 @@ if 'action' not in os.environ:
     else:
         print('Not logged in')
         print('<p><a href="?action=login">Log In</a></p>')
-    exit()
+    # exit()
 
 
 # Start the login process by sending the user
 # to GitHub's authorization page
-if 'action' in os.environ and os.environ['action'] == 'login':
+# if 'action' in os.environ and os.environ['action'] == 'login':
+    # only works if code is run locally and not on the cgi server
+
+# dir()
+
+print(base_url)
+print(getQualifiedURL())
+if "login" in base_url:
     os.environ['ACCESS_TOKEN'] = ''
 
     # Generate a random hash and store in the environment
@@ -96,5 +127,15 @@ if 'action' in os.environ and os.environ['action'] == 'login':
     authorize_url = f"{authorize_url}?{urllib.parse.urlencode(params)}"
     # urllib.parse.urlencode encodes the params as a query string
 
-    webbrowser.open(authorize_url)
-    exit()
+    # webbrowser.open(authorize_url)
+    # this works if only the code is executed on the local machine
+    #  and not on a server
+
+    print("Status: 302")
+    
+    print("Location: {}".format(authorize_url))
+    # to open the url in the browser when running script as a cgi script on the server
+    # webbrowser.open(authorize_url)
+    print("Did this work?")
+    # exit()
+
