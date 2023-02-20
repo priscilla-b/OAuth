@@ -100,14 +100,11 @@ if 'action' not in os.environ:
 
 # Start the login process by sending the user
 # to GitHub's authorization page
+
 # if 'action' in os.environ and os.environ['action'] == 'login':
     # only works if code is run locally and not on the cgi server
 
-# dir()
-
-print(base_url)
-print(getQualifiedURL())
-if "login" in base_url:
+if "login" in os.environ.get('QUERY_STRING'):
     os.environ['ACCESS_TOKEN'] = ''
 
     # Generate a random hash and store in the environment
@@ -128,14 +125,15 @@ if "login" in base_url:
     # urllib.parse.urlencode encodes the params as a query string
 
     # webbrowser.open(authorize_url)
-    # this works if only the code is executed on the local machine
+    # this works if only the code is executed locally
     #  and not on a server
 
-    print("Status: 302")
+    # print("Status: 302")
+    # status 302 tells browser that the url that follows it is a redirect url
     
-    print("Location: {}".format(authorize_url))
+    # print("Location: {}".format(authorize_url))
+    print('    <meta http-equiv="refresh" content="0;url='+str(authorize_url)+'" />')
     # to open the url in the browser when running script as a cgi script on the server
     # webbrowser.open(authorize_url)
-    print("Did this work?")
     # exit()
 
